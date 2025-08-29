@@ -1,0 +1,148 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1F1F1F;
+}
+  
+.header {
+    color: white; 
+    padding: 20px;                          /* padding for header content */
+    text-align: center; 
+    margin-top: 40px;                       /* Add space between top of the screen and header */
+}
+  
+.header-logo {
+    font-size: 30px; 
+    font-weight: bold; 
+}
+
+#moviesDisplayed {
+    margin-left: 30px;
+    font-size: 24px; 
+    font-weight: bold; 
+    margin-bottom: 20px;
+    color: white;
+}
+#movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+    justify-items: center;
+    align-items: start;
+}
+
+.movie-card {
+    width: 250px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1F1F1F;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px hsla(287, 95%, 34%, 0.997);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease; 
+}
+
+.movie-card:hover {
+    transform: scale(1.1); 
+    background-color: #626262;
+}
+  
+.movie-poster {
+    width: 100%;
+    height: auto;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+}
+  
+.movie-title {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF;
+
+}
+  
+.movie-votes {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #888888;
+}
+
+
+/* #searchForm {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+} */
+  
+#searchInput {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+  
+#closeSearchBtn {
+    background-color: #FF0000;
+    color: #FFFFFF;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px; 
+    transition: background-color 0.3s ease;
+}
+  
+#closeSearchBtn:hover {
+    background-color: #5e165c; 
+}
+
+#searchForm {
+    border-radius: 3px;
+    padding: 10px 20px;                     /* Increase padding for a larger button */
+    cursor: pointer;
+    display: block;                         /* Make the button a block element */
+    margin: 0 auto; 
+}
+  
+#load-more-movies-btn {
+    background-color: #3b0835;
+    color: #FFFFFF;
+    border: 2px solid #3b0835;            /* Add border */
+    border-radius: 3px;
+    padding: 10px 20px;                     /* Increase padding for a larger button */
+    cursor: pointer;
+    display: block;                         /* Make the button a block element */
+    margin: 0 auto;                          /* Center alignment */
+    text-align: center;                     /* Center align the button text */
+    font-size: 16px; 
+    transition: background-color 0.3s ease; /* smoother transition */
+}
+  
+#load-more-movies-btn:hover {
+    background-color: #5e165c;            /* Changes background color on hover */
+}
+
+/* Making possible animations */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+  
+@keyframes slideIn {
+    from {
+      transform: translateX(-50%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+    }
+}
