@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .settings import settings
 from .routes import root
+from .routes import auth as auth_routes
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.API_VERSION)
 
@@ -16,6 +17,7 @@ app.add_middleware(
 
 # Routers
 app.include_router(root.router, prefix="")
+app.include_router(auth_routes.router)
 
 # Future:
 # from .routes import shelters, capacity, intake
