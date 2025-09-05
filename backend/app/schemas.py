@@ -71,3 +71,20 @@ class CapacityLogOut(BaseModel):
     updated_by: Optional[int] = None
     class Config:
         from_attributes = True
+
+# ---------- Intake ----------
+class IntakeRequestCreate(BaseModel):
+    shelter_id: int
+    name: Optional[str] = None
+    reason: Optional[str] = None
+    eta: Optional[datetime] = None  # expected arrival
+
+class IntakeRequestOut(BaseModel):
+    id: int
+    shelter_id: int
+    name: Optional[str]
+    reason: Optional[str]
+    eta: Optional[datetime]
+    created_at: datetime
+    class Config:
+        from_attributes = True
