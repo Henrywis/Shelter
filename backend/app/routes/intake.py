@@ -8,7 +8,7 @@ from ..models.intake import IntakeRequest
 from ..schemas import IntakeRequestCreate, IntakeRequestOut
 from ..models.shelter import Shelter
 from ..auth import require_role
-from ..utils.notifications import send_email_stub
+from ..utils.notifications import send_email_intake
 
 router = APIRouter(prefix="/intake", tags=["intake"])
 
@@ -30,7 +30,7 @@ def create_intake(payload: IntakeRequestCreate, background_tasks: BackgroundTask
     db.refresh(req)
 
     # Fire-and-forget notification
-    background_tasks.add_task(send_email_stub, shelter.name, req)
+    background_tasks.add_task(send_email_intake, shelter.name, req)
 
     return req
 
