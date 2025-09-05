@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 
 # ---------- Auth ----------
 class UserCreate(BaseModel):
@@ -25,3 +26,48 @@ class UserOut(BaseModel):
 
     class Config:
         from_attributes = True  # pydantic v2: serialize from ORM
+
+
+# ---------- Shelter ----------
+class ShelterBase(BaseModel):
+    name: str
+    address: str
+    geo_lat: float = Field(ge=-90, le=90)
+    geo_lng: float = Field(ge=-180, le=180)
+    phone: Optional[str] = None
+    policies: Optional[str] = None
+    hours: Optional[str] = None
+
+class ShelterCreate(ShelterBase):
+    pass
+
+class ShelterUpdate(BaseModel):
+    name: Optional[str] = None
+    address: Optional[str] = None
+    geo_lat: Optional[float] = None
+    geo_lng: Optional[float] = None
+    phone: Optional[str] = None
+    policies: Optional[str] = None
+    hours: Optional[str] = None
+
+class ShelterOut(ShelterBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+    class Config:
+        from_attributes = True
+
+# ---------- Capacity ----------
+class CapacityUpdate(BaseModel):
+    beds_total: int = Field(ge=0)
+    beds_available: int = Field(ge=0)
+
+class CapacityLogOut(BaseModel):
+    id: int
+    shelter_id: int
+    beds_total: int
+    beds_available: int
+    updated_at: datetime
+    updated_by: Optional[int] = None
+    class Config:
+        from_attributes = True
