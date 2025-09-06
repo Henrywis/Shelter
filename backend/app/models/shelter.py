@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Text
 from .base import Base
+from sqlalchemy.orm import relationship
 from .mixins import TimestampMixin
 
 class Shelter(TimestampMixin, Base):
@@ -13,3 +14,5 @@ class Shelter(TimestampMixin, Base):
     phone = Column(String, nullable=True)
     policies = Column(Text, nullable=True)  # JSON-ish text
     hours = Column(String, nullable=True)   # e.g. "9am–9pm"
+
+    intakes = relationship("IntakeRequest", back_populates="shelter", cascade="all, delete-orphan")

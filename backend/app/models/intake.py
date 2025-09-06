@@ -23,4 +23,4 @@ class IntakeRequest(TimestampMixin, Base):
         ),
     )
 
-    shelter = relationship("Shelter", backref="intake_requests")
+    shelter = relationship("Shelter", back_populates="intakes")

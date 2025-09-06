@@ -57,6 +57,14 @@ class ShelterOut(ShelterBase):
     class Config:
         from_attributes = True
 
+class ShelterBrief(BaseModel):
+    id: int
+    name: str
+    address: str
+
+    class Config:
+        from_attributes = True
+
 # ---------- Capacity ----------
 class CapacityUpdate(BaseModel):
     beds_total: int = Field(ge=0)
@@ -89,6 +97,7 @@ class IntakeRequestOut(BaseModel):
     eta: Optional[datetime]
     created_at: datetime
     status: IntakeStatus 
+    shelter: ShelterBrief
 
     class Config:
         from_attributes = True
