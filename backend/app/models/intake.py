@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from .base import Base
@@ -12,7 +12,15 @@ class IntakeRequest(TimestampMixin, Base):
     name = Column(String, nullable=True)  # optional name
     reason = Column(String, nullable=True) 
     eta = Column(DateTime, nullable=True)    # text for ETA
-    status = Column(String, default="pending")
+    status = Column(String, default="pending", nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    __table_args__ = (
+        # SQLite treats CHECK as advisory; Postgres will enforce strictly.
+        CheckConstraint(
+            "status in ('pending','fulfilled','cancelled')",
+            name="ck_intake_status"
+        ),
+    )
 
     shelter = relationship("Shelter", backref="intake_requests")

@@ -1,5 +1,5 @@
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
+from pydantic import BaseModel, EmailStr, Field, field_validator
+from typing import Optional, List, Literal
 from datetime import datetime
 
 # ---------- Auth ----------
@@ -73,6 +73,8 @@ class CapacityLogOut(BaseModel):
         from_attributes = True
 
 # ---------- Intake ----------
+IntakeStatus = Literal["pending", "fulfilled", "cancelled"]
+
 class IntakeRequestCreate(BaseModel):
     shelter_id: int
     name: Optional[str] = None
@@ -86,5 +88,24 @@ class IntakeRequestOut(BaseModel):
     reason: Optional[str]
     eta: Optional[datetime]
     created_at: datetime
+    status: IntakeStatus 
+
     class Config:
         from_attributes = True
+    
+# For a more strict status literal from IntakeStatus literal list
+# we using this for now
+class IntakeStatusUpdate(BaseModel):
+    status: IntakeStatus
+
+# Optional: To accept case-insensitive inputs (e.g., "Fulfilled"), oppositve of IntakeStatusUpdate
+class IntakeStatusUpdateLoose(BaseModel):
+    status: str
+
+    @field_validator("status")
+    @classmethod
+    def normalize_status(cls, v: str) -> str:
+        s = v.lower().strip()
+        if s not in {"pending", "fulfilled", "cancelled"}:
+            raise ValueError("status must be one of: pending, fulfilled, cancelled")
+        return s
