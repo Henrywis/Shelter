@@ -14,7 +14,8 @@ from ..schemas import (
     IntakeStatusUpdateLoose,  # for future use
 )
 from ..auth import require_role, get_current_user
-from ..utils.notifications import send_email_intake
+from ..utils.notifications import send_email_intake, send_intake_sms, send_intake_status_sms
+from ..settings import settings
 
 router = APIRouter(prefix="/intake", tags=["intake"])
 
@@ -42,6 +43,15 @@ def create_intake(
 
     # Fire-and-forget notification (email; falls back to stub if disabled)
     background_tasks.add_task(send_email_intake, shelter.name, req, None)
+
+    # Fire-and-forget SMS notification (local/dev)
+    if settings.TWILIO_ENABLED and settings.TEST_SMS_TO:
+        background_tasks.add_task(
+            send_intake_sms,
+            shelter.name,
+            req,
+            settings.TEST_SMS_TO,  # destination for now (Marker 9: use shelter phone)
+        )
 
     return req
 
@@ -106,7 +116,8 @@ def list_intakes(
 @router.patch("/{intake_id}/status", response_model=IntakeRequestOut)
 def update_intake_status(
     intake_id: int,
-    payload: IntakeStatusUpdate,  # IntakeStatusUpdateLoose for case-insensitive
+    payload: IntakeStatusUpdate,  # or IntakeStatusUpdateLoose for case-insensitive
+    background_tasks: BackgroundTasks,            # <--- added
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -114,17 +125,27 @@ def update_intake_status(
     if not req:
         raise HTTPException(status_code=404, detail="Intake not found")
 
-    # Admin can update any intake; Shelter role can update only if it belongs to their shelter
-    if current_user.role == "admin":
-        pass
-    elif current_user.role == "shelter":
-        if not current_user.shelter_id or current_user.shelter_id != req.shelter_id:
-            raise HTTPException(status_code=403, detail="Forbidden")
-    else:
-        raise HTTPException(status_code=403, detail="Forbidden")
+    # Admin can update any intake; Shelter role only if it belongs to their shelter
+    # if current_user.role == "admin":
+    #     pass
+    # elif current_user.role == "shelter":
+    #     if not current_user.shelter_id or current_user.shelter_id != req.shelter_id:
+    #         raise HTTPException(status_code=403, detail="Forbidden")
+    # else:
+    #     raise HTTPException(status_code=403, detail="Forbidden")
 
-    req.status = payload.status  # already validated by schema
-    db.add(req)
-    db.commit()
-    db.refresh(req)
+    # Only do work if status actually changes
+    if req.status != payload.status:
+        req.status = payload.status  # validated by schema
+        db.add(req)
+        db.commit()
+        db.refresh(req)
+
+        # Fetch shelter so the SMS can include name/address
+        shelter = db.get(Shelter, req.shelter_id)
+        if shelter:
+            # Fire-and-forget SMS to requester (for now uses TEST_SMS_TO)
+            background_tasks.add_task(send_intake_status_sms, shelter, req)
+
     return req
+

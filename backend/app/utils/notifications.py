@@ -119,3 +119,24 @@ def send_intake_sms(shelter_name: str, intake_req, to_number: str) -> None:
         f"Intake ID: {intake_req.id}"
     )
     send_sms_twilio(body, to_number)
+
+def send_intake_status_sms(shelter, intake_req) -> None:
+    """
+    Sends an SMS to the requester (for now: default test destination) whenever
+    an intake status changes. Includes shelter info and the new status.
+    """
+    to_number = getattr(settings, "TEST_SMS_TO", "")
+    if not to_number:
+        print("[SMS] No TEST_SMS_TO configured; skipping status SMS.")
+        return
+
+    body = (
+        f"Update from {shelter.name}\n"
+        f"Address: {shelter.address}\n\n"
+        f"Intake status is now: {intake_req.status}\n"
+        f"Name: {intake_req.name or 'N/A'}\n"
+        f"Reason: {intake_req.reason or 'N/A'}\n"
+        f"ETA: {intake_req.eta or 'unspecified'}\n"
+        f"Intake ID: {intake_req.id}"
+    )
+    send_sms_twilio(body, to_number)
