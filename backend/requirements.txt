@@ -14,3 +14,5 @@ python-jose[cryptography]==3.3.0
 
 # Validation
 pydantic[email]  # ensures email-validator is properly registered
+twilio==9.3.1 # SMS
+

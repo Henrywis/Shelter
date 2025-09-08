@@ -34,6 +34,18 @@ class Settings(BaseSettings):
     EMAIL_FROM: str = ""         # e.g., "Shelter App <youraddress@gmail.com>"
     EMAIL_TO_DEFAULT: str = ""   # fallback recipient if shelter has no email yet
 
+    # SMS (Twilio)
+    TWILIO_ENABLED: bool = False
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    TWILIO_FROM_NUMBER: str = ""   # E164, e.g. "+18551234567", optional if using Messaging Service:
+                                    # send_sms_twilio("Hello from Shelter App 🚀", to_number="+18777804236")
+    TWILIO_MESSAGING_SERVICE_SID: str = ""   # optional alternative; e.g., "MGxxxxxxxx..."
+                                    # send_sms_twilio("Using MSG Service SID", to_number="+18777804236", messaging_service_sid="MG7711b495ac20b5155b59b035b5a42f9e")
+
+    TEST_SMS_TO: str = ""           # local testing convenience
+
+
     # Pydantic v2 config (do NOT add class Config)
     model_config = SettingsConfigDict(
         env_file=".env",
