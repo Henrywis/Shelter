@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field, field_validator
-from typing import Optional, List, Literal
 from datetime import datetime
+from pydantic import BaseModel, EmailStr, Field, field_validator
+from typing import Generic, List, Literal, Optional, TypeVar
+
 
 # ---------- Auth ----------
 class UserCreate(BaseModel):
@@ -118,3 +119,12 @@ class IntakeStatusUpdateLoose(BaseModel):
         if s not in {"pending", "fulfilled", "cancelled"}:
             raise ValueError("status must be one of: pending, fulfilled, cancelled")
         return s
+    
+# Paginated envelope
+T = TypeVar("T")
+
+class Paginated(BaseModel, Generic[T]):
+    items: List[T]
+    total: int
+    page: int
+    page_size: int
