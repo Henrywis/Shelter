@@ -17,11 +17,24 @@ export async function updateIntakeStatus(intakeId, status) {
   return data
 }
 
-export function exportCsv(params = {}) {
-  // force a file download via browser
-  const url = new URL(`${api.defaults.baseURL}/intake/export.csv`)
-  Object.entries(params).forEach(([k, v]) => {
-    if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, v)
-  })
-  window.location.href = url.toString()
+export async function exportCsv(params = {}) {
+  try {
+    const res = await api.get('/intake/export.csv', {
+      params,
+      responseType: 'blob', // important for binary/CSV
+    })
+
+    const blob = new Blob([res.data], { type: 'text/csv;charset=utf-8;' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'intakes.csv'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    window.URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error(err)
+    alert('CSV export failed')
+  }
 }

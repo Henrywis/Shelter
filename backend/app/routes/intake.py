@@ -248,13 +248,13 @@ def update_intake_status(
         raise HTTPException(status_code=404, detail="Intake not found")
 
     # Admin can update any intake; Shelter role only if it belongs to their shelter
-    # if current_user.role == "admin":
-    #     pass
-    # elif current_user.role == "shelter":
-    #     if not current_user.shelter_id or current_user.shelter_id != req.shelter_id:
-    #         raise HTTPException(status_code=403, detail="Forbidden")
-    # else:
-    #     raise HTTPException(status_code=403, detail="Forbidden")
+    if current_user.role == "admin":
+        pass
+    elif current_user.role == "shelter":
+        if not current_user.shelter_id or current_user.shelter_id != req.shelter_id:
+            raise HTTPException(status_code=403, detail="Forbidden")
+    else:
+        raise HTTPException(status_code=403, detail="Forbidden")
 
     # Only do work if status actually changes
     if req.status != payload.status:
