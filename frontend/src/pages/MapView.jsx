@@ -21,7 +21,7 @@ export default function MapView() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
       <div>
-        <h2>Nearby Shelters</h2>
+        <h2 className="page-title">Nearby Shelters</h2>
         <p style={{ fontSize: 12, opacity: 0.7 }}>Backend health: {healthy ?? '...'}</p>
         {shelters.length === 0 && <p>No shelters found.</p>}
         {shelters.map(s => <ShelterCard key={s.id} shelter={s} />)}

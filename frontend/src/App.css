@@ -69,6 +69,40 @@
     border-top: 1px solid var(--border);
   }
   
+
+/* ---- Status badges (pending / fulfilled / cancelled) ---- */
+
+.status-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    text-transform: capitalize;
+  }
+  
+  /* Uses the CSS variables defined in :root */
+  
+  .status-badge-pending {
+    background-color: var(--status-pending-bg);
+    border-color: var(--status-pending-border);
+    color: var(--status-pending-fg);
+  }
+  
+  .status-badge-fulfilled {
+    background-color: var(--status-fulfilled-bg);
+    border-color: var(--status-fulfilled-border);
+    color: var(--status-fulfilled-fg);
+  }
+  
+  .status-badge-cancelled {
+    background-color: var(--status-cancelled-bg);
+    border-color: var(--status-cancelled-border);
+    color: var(--status-cancelled-fg);
+  }
+
+  
   /* Header tweaks (optional, works with your existing Header.jsx) */
   
   .app-header {
@@ -116,6 +150,28 @@
     color: var(--primary-fg) !important;
     box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
     font-weight: 600;
+  }
+
+
+
+  h1, h2 {
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+  
+  /* Page title style */
+  .page-title {
+    font-size: 1.5rem; 
+    font-weight: 600;
+    margin: 0 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Optional: */
+  .page-subtitle {
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 1.25rem;
   }
   
   /* Generic card */

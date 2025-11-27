@@ -35,8 +35,8 @@ export default function Login() {
   return (
     <div className="login-page">
       <div className="card login-card">
-        <h1 className="login-title">Admin Sign In</h1>
-        <p className="login-subtitle">
+        <h1 className="login-title page-title">Admin Sign In</h1>
+        <p className="login-subtitle page-subtitle">
           Sign in to manage shelter intake requests and capacity updates.
         </p>
 

@@ -62,7 +62,7 @@ export default function AdminPortal() {
 
   return (
     <section>
-      <h2>Admin Portal</h2>
+      <h2 className="page-title">Admin Portal</h2>
       <p style={{ fontSize: 12, opacity: 0.7 }}>
         Signed in as <strong>{user?.email}</strong> ({user?.role})
       </p>
