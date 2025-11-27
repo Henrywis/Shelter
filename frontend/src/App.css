@@ -1,0 +1,239 @@
+/* ---- Global layout ---- */
+
+:root {
+    /* Light theme civic palette */
+    --bg: hsl(210 20% 98%);
+    --fg: hsl(215 25% 15%);
+    --card-bg: hsl(0 0% 100%);
+    --card-fg: hsl(215 25% 15%);
+    --border: hsl(214 20% 88%);
+    --muted: hsl(210 20% 94%);
+    --muted-fg: hsl(215 15% 45%);
+    --primary: hsl(217 91% 45%);
+    --primary-fg: #fff;
+    --danger: hsl(0 84% 60%);
+    --danger-bg: hsla(0, 84%, 60%, 0.08);
+    --radius: 0.75rem;
+  
+    --status-pending-bg: hsl(217 91% 45% / 0.08);
+    --status-pending-border: hsl(217 91% 45% / 0.4);
+    --status-pending-fg: hsl(217 91% 30%);
+  
+    --status-fulfilled-bg: hsl(25 95% 53% / 0.08);
+    --status-fulfilled-border: hsl(25 95% 53% / 0.4);
+    --status-fulfilled-fg: hsl(25 95% 35%);
+  
+    --status-cancelled-bg: hsl(215 15% 55% / 0.12);
+    --status-cancelled-border: hsl(215 15% 55% / 0.5);
+    --status-cancelled-fg: hsl(215 15% 35%);
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: var(--bg);
+    color: var(--fg);
+  }
+  
+  /* Root app container (centered, max width) */
+  #root {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 2rem;
+  }
+  
+  /* App shell */
+  
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .app-main {
+    flex: 1;
+    padding: 1rem 0 0.5rem;
+  }
+  
+  .app-footer {
+    margin-top: 1.5rem;
+    padding-top: 0.75rem;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    border-top: 1px solid var(--border);
+  }
+  
+  /* Header tweaks (optional, works with your existing Header.jsx) */
+  
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0 0.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+  }
+  
+  .app-header-title {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .app-nav {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  .app-nav a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--muted-fg);
+  }
+  
+  .app-nav a.app-nav-active {
+    font-weight: 600;
+    color: var(--fg);
+  }
+  
+  /* Generic card */
+  
+  .card {
+    background-color: var(--card-bg);
+    color: var(--card-fg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.04);
+  }
+  
+  /* ---- Login page ---- */
+  
+  .login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 160px); /* header + footer space */
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 420px;
+  }
+  
+  .login-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+  }
+  
+  .login-subtitle {
+    font-size: 0.9rem;
+    color: var(--muted-fg);
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Form controls */
+  
+  .form-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+  }
+  
+  .form-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .input {
+    padding: 0.5rem 0.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    outline: none;
+    background-color: #fff;
+  }
+  
+  .input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
+  }
+  
+  /* Button */
+  
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background-color: var(--primary);
+    color: var(--primary-fg);
+    cursor: pointer;
+    width: 100%;
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    background-color: hsl(217 91% 40%);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+    transform: translateY(-0.5px);
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.8;
+    cursor: default;
+  }
+  
+  /* Error box */
+  
+  .alert-error {
+    font-size: 0.8rem;
+    color: var(--danger);
+    background-color: var(--danger-bg);
+    border-radius: 0.5rem;
+    border: 1px solid hsla(0, 84%, 60%, 0.28);
+    padding: 0.55rem 0.7rem;
+  }
+  
+  /* Test credentials block */
+  
+  .login-creds {
+    margin-top: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--muted-fg);
+    text-align: center;
+  }
+  
+  .login-creds code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.75rem;
+  }
+  
+  /* Optional: tweak Leaflet typography */
+  
+  .leaflet-container {
+    font-family: inherit;
+  }
+  
+  .leaflet-popup-content-wrapper {
+    border-radius: var(--radius);
+  }
+  
