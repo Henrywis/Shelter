@@ -4,24 +4,51 @@ import { useAuth } from '../auth/AuthContext.jsx'
 export default function Header() {
   const loc = useLocation()
   const { user, logout } = useAuth()
-  const at = (p) => ({ fontWeight: loc.pathname === p ? 700 : 400 })
+
+  const isActive = (path) => loc.pathname === path
 
   return (
-    <header style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: 16, borderBottom: '1px solid #eee'
-    }}>
-      <Link to="/" style={{ textDecoration: 'none' }}>
-        <h1 style={{ margin: 0, fontSize: 18 }}>Shelter Capacity</h1>
+    <header className="app-header">
+      <Link to="/" className="app-header-title-link">
+        <h1 className="app-header-title">Shelter Capacity</h1>
       </Link>
-      <nav style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <Link to="/" style={at('/')}>Map</Link>
-        <Link to="/admin" style={at('/admin')}>Admin</Link>
-        {!user && <Link to="/login" style={at('/login')}>Sign in</Link>}
+
+      <nav className="app-nav">
+        <Link
+          to="/"
+          className={`app-nav-link ${isActive('/') ? 'app-nav-active' : ''}`}
+        >
+          Map
+        </Link>
+
+        <Link
+          to="/admin"
+          className={`app-nav-link ${isActive('/admin') ? 'app-nav-active' : ''}`}
+        >
+          Admin
+        </Link>
+
+        {!user && (
+          <Link
+            to="/login"
+            className={`app-nav-link ${isActive('/login') ? 'app-nav-active' : ''}`}
+          >
+            Sign in
+          </Link>
+        )}
+
         {user && (
           <>
-            <span style={{ fontSize: 12, opacity: 0.7 }}>{user.email}</span>
-            <button onClick={logout}>Logout</button>
+            <span className="app-header-user">
+              {user.email}
+            </span>
+            <button
+              type="button"
+              className="app-header-logout"
+              onClick={logout}
+            >
+              Logout
+            </button>
           </>
         )}
       </nav>
