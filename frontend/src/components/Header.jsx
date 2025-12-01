@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext.jsx'
+import { Building2 } from 'lucide-react'
 
 export default function Header() {
   const loc = useLocation()
@@ -10,7 +11,10 @@ export default function Header() {
   return (
     <header className="app-header">
       <Link to="/" className="app-header-title-link">
-        <h1 className="app-header-title">Shelter Capacity</h1>
+        <h1 className="app-header-title">
+          <Building2 size={20} className="app-header-icon" />
+          Shelter Capacity
+        </h1> 
       </Link>
 
       <nav className="app-nav">
